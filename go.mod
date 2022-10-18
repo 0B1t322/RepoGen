@@ -1,4 +1,4 @@
-module github.com/0B1t322/Repogen
+module github.com/0B1t322/RepoGen
 
 go 1.19
 
