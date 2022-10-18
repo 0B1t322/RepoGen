@@ -162,6 +162,19 @@ func isFileNeedRegeneration(fileName string) bool {
 		return true
 	}
 
+	// Check that one of file is exist
+	if _, err := os.Open(edgesBuilderFileName); err != nil {
+		return true
+	}
+
+	if _, err := os.Open(filterBuilderFileName); err != nil {
+		return true
+	}
+
+	if _, err := os.Open(sortBuilderFileName); err != nil {
+		return true
+	}
+
 	if stat, err := os.Stat(edgesBuilderFileName); err == nil {
 		return file.ModTime().After(stat.ModTime())
 	}
