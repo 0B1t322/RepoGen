@@ -1,0 +1,42 @@
+/*
+    Provide struct and methods to build edges query
+    Code generatated with repogen
+    Do not Edit
+*/
+package {{.Package}}
+
+import (
+    "github.com/samber/mo"
+)
+
+{{range .EdgesFields}}
+
+{{$typeName := .TypeName}}
+
+type {{.TypeName}}Builder struct {
+    {{.TypeName}}
+}
+
+func New{{.TypeName}}Builder() {{.TypeName}}Builder {
+    return {{.TypeName}}Builder{}
+}
+
+{{range .Edges}}
+func (b {{$typeName}}Builder) With{{.Name}}(with {{.TypeName}}Builder) {{$typeName}}Builder {
+{{if .WithEdgesField}} b.{{$typeName}}.Edges.{{.Name}} = mo.Some(with.Build()) {{else}} b.{{$typeName}}.{{.Name}} = mo.Some(with.Build()){{end}}
+    return b
+}
+{{end}}
+
+{{range .VariablesFields}}
+func (b {{$typeName}}Builder) Set{{.Name}}({{.Name | ToLowerCamel}} {{.VariableType}}) {{$typeName}}Builder {
+    b.{{$typeName}}.{{.Name}} = mo.Some({{.Name | ToLowerCamel}})
+    return b
+}
+{{end}}
+
+func (b {{.TypeName}}Builder) Build() {{.TypeName}} {
+    return b.{{.TypeName}}
+}
+
+{{end}}

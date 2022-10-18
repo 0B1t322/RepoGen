@@ -1,0 +1,32 @@
+/*
+    Provide struct and methods to build sort query
+    Code generatated with repogen
+    Do not Edit
+*/
+package {{.Package}}
+
+import (
+	"github.com/0B1t322/Repogen/pkg/sortorder"
+	"github.com/samber/mo"
+)
+
+type sortBuilder struct {
+    sort []{{.SortFieldsType}}
+}
+
+func SortBuilder() sortBuilder {
+    return sortBuilder{}
+}
+
+func (s sortBuilder) Build() []{{.SortFieldsType}} {
+    return s.sort
+}
+
+{{range .SortFields}}
+func (s sortBuilder) {{.Name}}(order sortorder.SortOrder) sortBuilder {
+    s.sort = append(s.sort, {{$.SortFieldsType}}{
+        {{.Name}}: mo.Some(order),
+    })
+    return s
+}
+{{end}}

@@ -1,0 +1,64 @@
+/*
+    Provide struct and methods to build filter query
+    Code generatated with repogen
+    Do not Edit
+*/
+package {{.Package}}
+
+import (
+    "github.com/samber/mo"
+    "github.com/0B1t322/Repogen/pkg/filter"
+    {{range .Imports}}
+    {{.}}
+    {{end}}
+)
+
+type filterQuery struct {
+    {{.FilterQueryType}}
+}
+
+func Query() filterQuery {
+    return filterQuery{}
+}
+
+func (q filterQuery) Build() {{.FilterQueryType}} {
+    return q.{{.FilterQueryType}}
+}
+
+func (q filterQuery) Or(es ...expression) filterQuery {
+	for _, e := range es {
+		q.{{.FilterQueryType}}.Or = append(q.{{.FilterQueryType}}.Or, Query().Expression(e).{{.FilterQueryType}})
+	}
+	return q
+}
+
+func (q filterQuery) And(es ...expression) filterQuery {
+	for _, e := range es {
+		q.{{.FilterQueryType}}.And = append(q.{{.FilterQueryType}}.And, Query().Expression(e).{{.FilterQueryType}})
+	}
+	return q
+}
+
+func (q filterQuery) Expression(e expression) filterQuery {
+    q.{{.FilterQueryType}}.Expression = e.{{.FilterFieldsType}}
+    return q
+}
+
+type expression struct {
+    {{.FilterFieldsType}}
+}
+
+func Expression() expression {
+    return expression{}
+}
+
+func (e expression) Build() {{.FilterFieldsType}} {
+    return e.{{.FilterFieldsType}}
+}
+
+{{range .FilterFields}}
+func (e expression) {{.Name}}({{.Name | ToLowerCamel}} {{.Type}}, op filter.FilterOperation) expression {
+    e.{{$.FilterFieldsType}}.{{.Name}} = mo.Some(filter.New({{.Name | ToLowerCamel}}, op))
+    return e
+}
+{{end}}
