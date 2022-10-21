@@ -67,3 +67,8 @@ func (e expression) Names(names []string, op filter.FilterOperation) expression 
 	e.FilterFields.Names = mo.Some(filter.New(names, op))
 	return e
 }
+
+func (e expression) SimpleFilter(simpleFilter string) expression {
+	e.FilterFields.SimpleFilter = mo.Some(simpleFilter)
+	return e
+}

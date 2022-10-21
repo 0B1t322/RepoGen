@@ -104,6 +104,8 @@ type FilterField struct {
 	Type string
 	// if require import some package will contain last package word
 	RequireImport *string
+	// if user type filter.FilterField
+	IsUseFilterType bool
 }
 
 type SortBuilderData struct {
@@ -578,11 +580,14 @@ func initFilterFields(fields []*ast.Field) []FilterField {
 			{
 				filterField.Name = field.Names[0].Name
 
-				if filterField.Name == "AttachedTo" {
-
+				wrappedType := field.Type.(*ast.IndexExpr)
+				switch wrappedType.Index.(type) {
+					case *ast.Ident:
+						filterField.IsUseFilterType = false
+					case *ast.IndexExpr:
+						filterField.IsUseFilterType = true
+						wrappedType = wrappedType.Index.(*ast.IndexExpr)
 				}
-
-				wrappedType := field.Type.(*ast.IndexExpr).Index.(*ast.IndexExpr)
 
 				switch t := wrappedType.Index.(type) {
 				case *ast.Ident:

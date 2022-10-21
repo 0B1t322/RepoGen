@@ -57,8 +57,19 @@ func (e expression) Build() {{.FilterFieldsType}} {
 }
 
 {{range .FilterFields}}
+
+{{if .IsUseFilterType}}
 func (e expression) {{.Name}}({{.Name | ToLowerCamel}} {{.Type}}, op filter.FilterOperation) expression {
     e.{{$.FilterFieldsType}}.{{.Name}} = mo.Some(filter.New({{.Name | ToLowerCamel}}, op))
     return e
 }
+{{end}}
+
+{{if not .IsUseFilterType}}
+func (e expression) {{.Name}}({{.Name | ToLowerCamel}} {{.Type}}) expression {
+    e.{{$.FilterFieldsType}}.{{.Name}} = mo.Some({{.Name | ToLowerCamel}})
+    return e
+}
+{{end}}
+
 {{end}}

@@ -17,6 +17,8 @@ type (
 		IDs   mo.Option[filter.FilterField[[]string]]
 		Name  mo.Option[filter.FilterField[string]]
 		Names mo.Option[filter.FilterField[[]string]]
+
+		SimpleFilter mo.Option[string]
 	}
 )
 
