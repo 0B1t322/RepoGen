@@ -1,7 +1,5 @@
 package filter
 
-import "golang.org/x/exp/constraints"
-
 type FilterOperation int
 
 func (f FilterOperation) GetOperationFilter() FilterOperation {
@@ -26,7 +24,7 @@ type OperationFilterer interface {
 }
 
 type FieldType interface {
-	constraints.Float | constraints.Integer | ~string | []string | any
+	~float32 | ~float64 | ~int | ~int8 | ~int16 | ~int32 | ~int64 | ~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr | ~string | []string | any
 }
 
 type FilterField[T FieldType] struct {
